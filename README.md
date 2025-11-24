@@ -7,3 +7,5 @@ Exemple: Spring Cloud Config Server
 3) Api Gateway : le seul point d'entrée pour toute l'application microservices.
 Role: Routage des requêtes, filtrage, authentification, load balancing, sécurité...
 Exemple : Spring Cloud Gateway
+
+test for PR
