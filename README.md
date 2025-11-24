@@ -1,15 +1,9 @@
-# Microservices Spring Cloud
-
-Ce projet contient trois services principaux dans une architecture microservices Spring Cloud :
-
-## 1. API Gateway
-- Rôle : Point d’entrée unique pour tous les clients, gère le routage vers les services backend.
-- Exemple : **Spring Cloud Gateway**
-
-## 2. Client Service
-- Rôle : Service métier qui gère la logique pour les clients/utilisateurs.
-- Exemple : **Spring Boot REST Service** avec base de données MySQL
-
-## 3. Account Service
-- Rôle : Service métier qui gère les comptes et la sécurité.
-- Exemple : **Spring Boot REST Service** avec Spring Security
+1) Discovery Service : annuaire de tous les services 
+Role: Permet aux services de se découvrir dynamiquement sans connaître leurs adresses IP à l’avance
+Exemple: Eureka (Netflix)
+2)Config server : configuration centralisée de tous les services
+Role: evite la duplication, facilite la mise à jour des configurations
+Exemple: Spring Cloud Config Server
+3) Api Gateway : le seul point d'entrée pour toute l'application microservices.
+Role: Routage des requêtes, filtrage, authentification, load balancing, sécurité...
+Exemple : Spring Cloud Gateway
