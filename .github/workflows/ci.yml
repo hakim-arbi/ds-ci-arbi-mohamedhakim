@@ -52,26 +52,27 @@ jobs:
           username: ${{ secrets.DOCKERHUB_USERNAME }}
           password: ${{ secrets.DOCKERHUB_TOKEN }}
 
-      # 5️⃣ Build & push API Gateway
-      - name: Build and push API Gateway image
-        working-directory: ./ds-api-gateway
-        run: |
-          docker build -t $DOCKERHUB_USERNAME/$REPO_API:latest .
-          docker push $DOCKERHUB_USERNAME/$REPO_API:latest
+     Le Dockerfile est correct, mais le problème vient du contexte de build. Quand vous faites docker build dans ./ds-api-gateway, Docker ne voit que ce qui est dans ce répertoire.
+Solutions
+Option 1 : Build depuis la racine (Recommandé)
+Modifiez votre workflow pour builder depuis la racine avec le bon contexte :
+yaml# 5️⃣ Build & push API Gateway
+- name: Build and push API Gateway image
+  run: |
+    docker build -f ds-api-gateway/Dockerfile -t $DOCKERHUB_USERNAME/$REPO_API:latest ./ds-api-gateway
+    docker push $DOCKERHUB_USERNAME/$REPO_API:latest
 
-      # 6️⃣ Build & push Client Service
-      - name: Build and push Client Service image
-        working-directory: ./ds-client-service
-        run: |
-          docker build -t $DOCKERHUB_USERNAME/$REPO_CLIENT:latest .
-          docker push $DOCKERHUB_USERNAME/$REPO_CLIENT:latest
+# 6️⃣ Build & push Client Service
+- name: Build and push Client Service image
+  run: |
+    docker build -f ds-client-service/Dockerfile -t $DOCKERHUB_USERNAME/$REPO_CLIENT:latest ./ds-client-service
+    docker push $DOCKERHUB_USERNAME/$REPO_CLIENT:latest
 
-      # 7️⃣ Build & push Account Service
-      - name: Build and push Account Service image
-        working-directory: ./ds-account-service
-        run: |
-          docker build -t $DOCKERHUB_USERNAME/$REPO_ACCOUNT:latest .
-          docker push $DOCKERHUB_USERNAME/$REPO_ACCOUNT:latest
+# 7️⃣ Build & push Account Service
+- name: Build and push Account Service image
+  run: |
+    docker build -f ds-account-service/Dockerfile -t $DOCKERHUB_USERNAME/$REPO_ACCOUNT:latest ./ds-account-service
+    docker push $DOCKERHUB_USERNAME/$REPO_ACCOUNT:latest
 
   deploy:
     name: Deploy All Services
